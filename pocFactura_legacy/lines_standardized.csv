@@ -1,0 +1,5 @@
+line_id,description,quantity,unit_price,line_total,matched_code,matched_description,score,status
+1,rig. verde,10.0000,12.50,125.00,9417.0,Rigips verde,0.8182,potrivit_fuzzy
+2,REZERVOR M.O.P.,5.0000,180.00,900.00,9368.0,Rezerva mop,0.7692,potrivit_fuzzy
+3,Rezervor perlon rediator,4.5000,160.00,720.00,9369.0,REZERVA PERLON RADIATOR,0.8936,potrivit_fuzzy
+4,rezervor poliacrilic,100.0000,3.20,320.00,9370.0,Rezerva poliacril,0.8649,potrivit_fuzzy

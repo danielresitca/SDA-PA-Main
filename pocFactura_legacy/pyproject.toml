@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invoice-lines"
+version = "0.2.0"
+description = "Extract and standardize invoice data"
+requires-python = ">=3.9"
+dependencies = ["defusedxml>=0.7.1", "pandas>=2.0", "openpyxl>=3.1"]
+
+[project.scripts]
+invoice-standardize = "invoice_core.cli_standardize:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["invoice_core", "invoice_core.*"]

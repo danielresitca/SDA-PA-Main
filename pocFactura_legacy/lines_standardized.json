@@ -1,0 +1,48 @@
+{
+  "lines": [
+    {
+      "line_id": "1",
+      "description": "rig. verde",
+      "quantity": "10.0000",
+      "unit_price": "12.50",
+      "line_total": "125.00",
+      "matched_code": 9417.0,
+      "matched_description": "Rigips verde",
+      "score": 0.8182,
+      "status": "potrivit_fuzzy"
+    },
+    {
+      "line_id": "2",
+      "description": "REZERVOR M.O.P.",
+      "quantity": "5.0000",
+      "unit_price": "180.00",
+      "line_total": "900.00",
+      "matched_code": 9368.0,
+      "matched_description": "Rezerva mop",
+      "score": 0.7692,
+      "status": "potrivit_fuzzy"
+    },
+    {
+      "line_id": "3",
+      "description": "Rezervor perlon rediator",
+      "quantity": "4.5000",
+      "unit_price": "160.00",
+      "line_total": "720.00",
+      "matched_code": 9369.0,
+      "matched_description": "REZERVA PERLON RADIATOR",
+      "score": 0.8936,
+      "status": "potrivit_fuzzy"
+    },
+    {
+      "line_id": "4",
+      "description": "rezervor poliacrilic",
+      "quantity": "100.0000",
+      "unit_price": "3.20",
+      "line_total": "320.00",
+      "matched_code": 9370.0,
+      "matched_description": "Rezerva poliacril",
+      "score": 0.8649,
+      "status": "potrivit_fuzzy"
+    }
+  ]
+}
