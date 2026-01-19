@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1</cbc:CustomizationID>
+  <cbc:ID>TEST-20-LINES-SLIGHT</cbc:ID>
+  <cbc:IssueDate>2025-08-01</cbc:IssueDate>
+  <cbc:DueDate>2025-08-31</cbc:DueDate>
+  <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
+  <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>
+
+  <!-- 1: 10 * 12.50 = 125.00 -->
+  <cac:InvoiceLine>
+    <cbc:ID>1</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="C62">10.0000</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="RON">125.00</cbc:LineExtensionAmount>
+    <cac:Item><cbc:Description>rig. verde</cbc:Description></cac:Item>
+    <cac:Price><cbc:PriceAmount currencyID="RON">12.50</cbc:PriceAmount></cac:Price>
+  </cac:InvoiceLine>
+
+  <!-- 2: 5 * 180.00 = 900.00 -->
+  <cac:InvoiceLine>
+    <cbc:ID>2</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="EA">5.0000</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="RON">900.00</cbc:LineExtensionAmount>
+    <cac:Item><cbc:Description>REZERVOR M.O.P.</cbc:Description></cac:Item>
+    <cac:Price><cbc:PriceAmount currencyID="RON">180.00</cbc:PriceAmount></cac:Price>
+  </cac:InvoiceLine>
+
+  <!-- 3: 4.5 * 160.00 = 720.00 -->
+  <cac:InvoiceLine>
+    <cbc:ID>3</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="HUR">4.5000</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="RON">720.00</cbc:LineExtensionAmount>
+    <cac:Item><cbc:Description>Rezervor perlon rediator</cbc:Description></cac:Item>
+    <cac:Price><cbc:PriceAmount currencyID="RON">160.00</cbc:PriceAmount></cac:Price>
+  </cac:InvoiceLine>
+
+  <!-- 4: 100 * 3.20 = 320.00 -->
+  <cac:InvoiceLine>
+    <cbc:ID>4</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="H87">100.0000</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="RON">320.00</cbc:LineExtensionAmount>
+    <cac:Item><cbc:Description>rezervor poliacrilic</cbc:Description></cac:Item>
+    <cac:Price><cbc:PriceAmount currencyID="RON">3.20</cbc:PriceAmount></cac:Price>
+  </cac:InvoiceLine>
+
+ 
+
+  <!-- Grand total = 11,128.00 -->
+  <cac:LegalMonetaryTotal>
+    <cbc:PayableAmount currencyID="RON">11128.00</cbc:PayableAmount>
+  </cac:LegalMonetaryTotal>
+</Invoice>

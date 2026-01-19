@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# CLI entry point pentru standardizare cu suport Gemini AI
 import json
 import argparse
 import pandas as pd
@@ -8,7 +7,6 @@ import sys
 from matcher import match_descriptions
 from ubl_lines import extract_lines
 
-# Incearca sa importe configurarea
 try:
     from config import GEMINI_API_KEY as CONFIG_API_KEY
 except ImportError:
@@ -16,7 +14,6 @@ except ImportError:
 
 
 def main():
-    # Fix encoding on Windows
     if sys.platform == 'win32':
         sys.stdout.reconfigure(encoding='utf-8')
         sys.stderr.reconfigure(encoding='utf-8')
@@ -44,7 +41,6 @@ def main():
     print("Instrument de Standardizare Facturi")
     print("=" * 60)
 
-    # Extract lines from XML
     print(f"\n[1/4] Extragere linii din: {args.xml}")
     try:
         lines = extract_lines(args.xml)
@@ -53,7 +49,6 @@ def main():
         print(f"  [EROARE] {e}")
         return 1
 
-    # Load codes database
     print(f"\n[2/4] Incarcare coduri din: {args.codes_xlsx}")
     try:
         df_codes = pd.read_excel(args.codes_xlsx)
@@ -62,10 +57,8 @@ def main():
         print(f"  [EROARE] {e}")
         return 1
 
-    # Get Gemini API key - prioritate: argument -> config.py -> variabila mediu
     gemini_api_key = args.gemini_api_key or CONFIG_API_KEY or os.getenv("GEMINI_API_KEY")
 
-    # Match descriptions
     print(f"\n[3/4] Potrivire denumiri...")
     print(f"  Prag fuzzy: {args.min_score}")
     print(f"  Prag Gemini: {args.gemini_threshold}")
@@ -92,16 +85,13 @@ def main():
         print(f"  [EROARE] {e}")
         return 1
 
-    # Save results
     print(f"\n[4/4] Salvare rezultate...")
 
     try:
-        # Save JSON
         with open(args.out_standard, "w", encoding="utf-8") as f:
             json.dump({"lines": standardized}, f, indent=2, ensure_ascii=False)
         print(f"  [OK] JSON: {args.out_standard}")
 
-        # Save CSV
         df_output = pd.DataFrame(standardized)
         df_output.to_csv(args.out_csv, index=False, encoding="utf-8")
         print(f"  [OK] CSV: {args.out_csv}")

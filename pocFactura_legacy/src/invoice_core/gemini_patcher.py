@@ -47,20 +47,16 @@ class GeminiMatcher:
         Returns:
             Dict cu matched_code, matched_description, confidence si reasoning
         """
-        # Ensure we have enough candidates
         candidates_to_analyze = candidates[:max(min_candidates, len(candidates))]
 
         if not candidates_to_analyze:
             return self._create_no_match_result(product_description)
 
-        # Build prompt for Gemini
         prompt = self._build_analysis_prompt(product_description, candidates_to_analyze)
 
         try:
-            # Call Gemini API
             response = self.model.generate_content(prompt)
 
-            # Parse response
             result = self._parse_gemini_response(response.text, candidates_to_analyze)
             result["ai_method"] = "gemini"
 
@@ -68,7 +64,6 @@ class GeminiMatcher:
 
         except Exception as e:
             print(f"Eroare API Gemini: {e}")
-            # Fallback la cel mai bun rezultat fuzzy
             return self._create_fallback_result(candidates_to_analyze[0], str(e))
 
     def _build_analysis_prompt(self, description: str, candidates: List[Dict]) -> str:
@@ -121,13 +116,10 @@ Niveluri de confidence:
         """Parse Gemini's JSON response."""
 
         try:
-            # Try to extract JSON from response (handle markdown code blocks)
             response_text = response_text.strip()
 
-            # Remove markdown code blocks if present
             if response_text.startswith("```"):
                 lines = response_text.split("\n")
-                # Find the actual JSON content
                 json_lines = []
                 in_json = False
                 for line in lines:
@@ -139,14 +131,12 @@ Niveluri de confidence:
                         break
                 response_text = "\n".join(json_lines)
 
-            # Parse JSON
             gemini_result = json.loads(response_text)
 
             selected_code = gemini_result.get("selected_code")
             confidence = float(gemini_result.get("confidence", 0.5))
             reasoning = gemini_result.get("reasoning", "Nicio explicatie furnizata")
 
-            # Check if Gemini returned null (no match)
             if selected_code is None or selected_code == "null":
                 return {
                     "matched_code": None,
@@ -156,14 +146,12 @@ Niveluri de confidence:
                     "status": "gemini_no_match"
                 }
 
-            # Find the full candidate info
             selected_candidate = next(
                 (c for c in candidates if c["matched_code"] == selected_code),
                 None
             )
 
             if selected_candidate is None:
-                # Gemini selected a code not in our candidates list - invalid!
                 print(f"[ATENTIE] Gemini a ales un cod invalid: {selected_code}")
                 return self._create_fallback_result(
                     candidates[0],
@@ -181,7 +169,6 @@ Niveluri de confidence:
         except (json.JSONDecodeError, KeyError, ValueError) as e:
             print(f"Eroare la parsarea raspunsului Gemini: {e}")
             print(f"Raspuns brut: {response_text[:200]}")
-            # Fallback to best fuzzy match
             return self._create_fallback_result(candidates[0], "Nu s-a putut parsa raspunsul AI")
 
     def _create_fallback_result(self, best_candidate: Dict, error_msg: str) -> Dict:

@@ -1,0 +1,17 @@
+{
+  "documents": [
+    {
+      "name": "facuraTst",
+      "csv_filename": "20260119_215202_facuraTst_standardized.csv",
+      "date": "2026-01-19 21:52",
+      "lines_count": 4,
+      "matched_count": 4
+    }
+  ],
+  "inventory": {
+    "Rigips verde": 20.0,
+    "Rezerva mop": 10.0,
+    "REZERVA PERLON RADIATOR": 9.0,
+    "Rezerva poliacril": 200.0
+  }
+}

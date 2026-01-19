@@ -26,14 +26,12 @@ def match_descriptions(
     Returns:
         Lista de linii cu coduri potrivite si scoruri de confidence
     """
-    # Auto-detect columns
     cols = list(df_codes.columns)
     if len(cols) < 2:
         raise ValueError("Fisierul Excel trebuie sa aiba cel putin doua coloane (cod si denumire).")
 
     code_col, desc_col = cols[0], cols[1]
 
-    # Initialize Gemini matcher if enabled
     gemini_matcher = None
     if use_gemini:
         try:
@@ -53,7 +51,6 @@ def match_descriptions(
     for line in lines:
         input_desc = str(line.get("description", "")).lower()
 
-        # Find all fuzzy matches and sort by score
         matches = []
         for _, row in df_codes.iterrows():
             score = SequenceMatcher(None, input_desc, str(row[desc_col]).lower()).ratio()
@@ -64,11 +61,9 @@ def match_descriptions(
                     "score": round(score, 4)
                 })
 
-        # Sort by score descending
         matches.sort(key=lambda x: x["score"], reverse=True)
 
         if not matches:
-            # No matches found at all
             line["matched_code"] = None
             line["matched_description"] = None
             line["score"] = 0.0
@@ -78,17 +73,14 @@ def match_descriptions(
 
         best_match = matches[0]
 
-        # Check if we should use Gemini AI
         if use_gemini and gemini_matcher and best_match["score"] < gemini_threshold:
             try:
-                # Send top 5 candidates to Gemini
                 top_candidates = matches[:5]
                 gemini_result = gemini_matcher.analyze_candidates(
                     product_description=line.get("description", ""),
                     candidates=top_candidates
                 )
 
-                # Update line with Gemini's analysis
                 line["matched_code"] = gemini_result["matched_code"]
                 line["matched_description"] = gemini_result["matched_description"]
                 line["score"] = gemini_result["confidence"]
@@ -102,17 +94,14 @@ def match_descriptions(
 
             except Exception as e:
                 print(f"  [EROARE] Gemini: {e}. Folosesc matching-ul fuzzy.")
-                # Fallback to fuzzy match
                 line.update(best_match)
                 line["status"] = "eroare_gemini_fallback"
         else:
-            # Use fuzzy match (high confidence)
             line.update(best_match)
             line["status"] = "potrivit_fuzzy" if best_match["score"] >= gemini_threshold else "fuzzy_confidence_scazut"
 
         results.append(line)
 
-    # Print summary
     print(f"\n[SUMAR] Potriviri:")
     print(f"  Total linii: {len(results)}")
     print(f"  Fuzzy confidence ridicat: {sum(1 for r in results if r.get('status') == 'potrivit_fuzzy')}")
